@@ -1,0 +1,13 @@
+{
+  "name": "runmiles",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mg-api-js": "^2.1.1",
+    "node-fetch": "^3.3.2"
+  }
+}
