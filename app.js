@@ -1,8 +1,8 @@
 const express = require('express');
+const path = require('path');
 const GeotabApi = require('mg-api-js');
 const fetch = require('node-fetch');
 
-// Initialize Express
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -17,6 +17,14 @@ const api = new GeotabApi({
 });
 
 const mondayAccessToken = process.env.MONDAY_ACCESS_TOKEN;
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Route to serve index.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // Endpoint to trigger odometer readings update
 app.get('/update-odometer', async (req, res) => {
