@@ -1,8 +1,10 @@
 import express from 'express';
 import GeotabApi from 'mg-api-js';
 import fetch from 'node-fetch';
+import path from 'path';
 
-// Initialize Express
+const __dirname = path.resolve();
+
 const app = express();
 const port = process.env.PORT || 3000;
 
