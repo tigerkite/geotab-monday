@@ -21,7 +21,6 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-            width: 300px;
         }
 
         #runButton {
@@ -45,7 +44,6 @@
             margin-top: 20px;
             font-size: 16px;
             color: #333;
-            text-align: left;
         }
     </style>
 </head>
@@ -62,28 +60,22 @@
             resultDiv.innerText = "Running...";
 
             try {
+                // Call the server endpoint
                 const response = await fetch('/update-odometer');
-                
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
+                const result = await response.json();
 
-                const data = await response.json();
-                resultDiv.innerHTML = ""; // Clear previous results
-
-                if (data.success) {
-                    resultDiv.innerText = "Odometer readings updated:\n";
-                    data.data.forEach(truck => {
-                        const p = document.createElement('p');
-                        p.textContent = `Truck ${truck.name} was updated with ${truck.odometer} miles`;
-                        resultDiv.appendChild(p);
+                if (result.success && Array.isArray(result.data)) {
+                    resultDiv.innerText = '';
+                    result.data.forEach((truck) => {
+                        const truckInfo = document.createElement('div');
+                        truckInfo.innerText = `Truck ${truck.name} was updated with ${truck.odometer} miles.`;
+                        resultDiv.appendChild(truckInfo);
                     });
                 } else {
-                    resultDiv.innerText = "Error updating odometer readings.";
+                    resultDiv.innerText = "Error: No data returned from server.";
                 }
             } catch (error) {
                 resultDiv.innerText = 'Error executing code: ' + error.message;
-                console.error("Execution error:", error);
             }
         });
     </script>

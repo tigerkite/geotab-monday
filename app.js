@@ -124,18 +124,7 @@ async function updateMondayOdometerReadings() {
         const namesAndItemIds = {
             "155537": "1300352351",
             "155796": "1300342845",
-            "155797": "1300341186",
-            "162246": "1300345210",
-            "162247": "1300349450",
-            "162248": "1300348007",
-            "164003": "1300356754",
-            "164004": "1300357909",
-            "164013": "1300354107",
-            "164014": "1388749808",
-            "292470": "4155597387",
-            "292471": "3335426976",
-            "292472": "4155600952",
-            "292498": "2999228918"
+            //... other items
         };
 
         const devicesWithOdometer = await fetchDevicesAndUpdateOdometer(Object.keys(namesAndItemIds));
@@ -168,8 +157,13 @@ async function updateMondayOdometerReadings() {
                 console.log(`No matching device found for ${name}.`);
             }
         }
+        
+        // Return the result array for the frontend
+        return devicesWithOdometer;
+
     } catch (error) {
         console.error('Error updating Monday.com:', error);
+        return [];  // Return an empty array in case of error
     }
 }
 
