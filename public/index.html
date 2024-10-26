@@ -14,6 +14,7 @@
             height: 100vh;
             margin: 0;
         }
+
         #container {
             text-align: center;
             background-color: rgba(255, 255, 255, 0.5);
@@ -21,6 +22,7 @@
             border-radius: 10px;
             box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
         }
+
         #runButton {
             font-family: 'Arial', sans-serif;
             font-size: 18px;
@@ -33,14 +35,15 @@
             transition: background-color 0.3s ease;
             margin-top: 20px;
         }
+
         #runButton:hover {
             background-color: #0066cc;
         }
+
         #result {
             margin-top: 20px;
             font-size: 16px;
             color: #333;
-            white-space: pre-wrap;
         }
     </style>
 </head>
@@ -57,27 +60,11 @@
             resultDiv.innerText = "Running...";
 
             try {
-                // Send request to the backend API and await response
+                // Call the endpoint that triggers odometer updates
                 const response = await fetch('/update-odometer');
                 const data = await response.json();
 
-                // Clear previous results and display success or error
-                resultDiv.innerText = "";
                 if (data.success) {
-                    // Display each truck's mileage update
-                    data.data.forEach(entry => {
-                        const message = `Truck ${entry.name} was updated with ${entry.odometer} miles.`;
-                        const p = document.createElement("p");
-                        p.innerText = message;
-                        resultDiv.appendChild(p);
-                    });
-                } else {
-                    throw new Error(data.message || "Unknown error occurred.");
-                }
-            } catch (error) {
-                resultDiv.innerText = 'Error executing code: ' + error.message;
-            }
-        });
-    </script>
-</body>
-</html>
+                    resultDiv.innerText = "Odometer readings updated:\n";
+                    data.data.forEach(truck => {
+                        const p = document.createElement('p
