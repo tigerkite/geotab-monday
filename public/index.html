@@ -22,6 +22,7 @@
             box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
         }
         #runButton {
+            font-family: 'Arial', sans-serif;
             font-size: 18px;
             padding: 10px 20px;
             border: none;
@@ -39,6 +40,7 @@
             margin-top: 20px;
             font-size: 16px;
             color: #333;
+            white-space: pre-wrap;
         }
     </style>
 </head>
@@ -55,14 +57,21 @@
             resultDiv.innerText = "Running...";
 
             try {
-                // Send a request to the backend endpoint
+                // Send request to the backend API and await response
                 const response = await fetch('/update-odometer');
                 const data = await response.json();
 
-                if (data.success) {
-                    resultDiv.innerText = "Odometer readings updated successfully.";
+                // Clear previous results and display each truck's update
+                resultDiv.innerText = "";
+                if (data.success && Array.isArray(data.data)) {
+                    data.data.forEach(entry => {
+                        const message = `Truck ${entry.name} was updated with ${entry.odometer} miles.`;
+                        const p = document.createElement("p");
+                        p.innerText = message;
+                        resultDiv.appendChild(p);
+                    });
                 } else {
-                    throw new Error(data.message || "Unknown error occurred.");
+                    resultDiv.innerText = 'Error: No data received or incorrect data format.';
                 }
             } catch (error) {
                 resultDiv.innerText = 'Error executing code: ' + error.message;
