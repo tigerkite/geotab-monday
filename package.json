@@ -1,13 +1,18 @@
 {
   "name": "runmiles",
   "version": "1.0.0",
+  "type": "module", 
+  "description": "Integrates Geotab vehicle miles into Monday.com",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
   },
+  "keywords": ["geotab", "monday.com", "integration"],
+  "author": "Bentsion Weiss",
+  "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
-    "mg-api-js": "^2.1.1",
+    "express": "^4.18.2",
+    "mg-api-js": "latest",
     "node-fetch": "^3.3.2"
   }
 }
