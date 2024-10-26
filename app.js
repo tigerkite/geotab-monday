@@ -1,8 +1,8 @@
-const express = require('express');
-const path = require('path');
-const GeotabApi = require('mg-api-js');
-const fetch = require('node-fetch');
+import express from 'express';
+import GeotabApi from 'mg-api-js';
+import fetch from 'node-fetch';
 
+// Initialize Express
 const app = express();
 const port = process.env.PORT || 3000;
 
