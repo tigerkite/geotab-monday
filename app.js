@@ -124,7 +124,18 @@ async function updateMondayOdometerReadings() {
         const namesAndItemIds = {
             "155537": "1300352351",
             "155796": "1300342845",
-            //... other items
+            "155797": "1300341186",
+            "162246": "1300345210",
+            "162247": "1300349450",
+            "162248": "1300348007",
+            "164003": "1300356754",
+            "164004": "1300357909",
+            "164013": "1300354107",
+            "164014": "1388749808",
+            "292470": "4155597387",
+            "292471": "3335426976",
+            "292472": "4155600952",
+            "292498": "2999228918"
         };
 
         const devicesWithOdometer = await fetchDevicesAndUpdateOdometer(Object.keys(namesAndItemIds));

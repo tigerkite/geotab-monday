@@ -65,10 +65,10 @@
                 const result = await response.json();
 
                 if (result.success && Array.isArray(result.data)) {
-                    resultDiv.innerText = '';
+                    resultDiv.innerText = '';  // Clear initial message
                     result.data.forEach((truck) => {
                         const truckInfo = document.createElement('div');
-                        truckInfo.innerText = `Truck ${truck.name} was updated with ${truck.odometer} miles.`;
+                        truckInfo.innerText = `Truck ${truck.name} - ${truck.vehicleIdentificationNumber} was updated with ${truck.odometer} miles.`;
                         resultDiv.appendChild(truckInfo);
                     });
                 } else {
