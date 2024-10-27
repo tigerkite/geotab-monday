@@ -23,7 +23,7 @@
             box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
         }
 
-        #runButton {
+        #runButton, #downloadButton {
             font-family: 'Arial', sans-serif;
             font-size: 18px;
             padding: 10px 20px;
@@ -34,9 +34,10 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
             margin-top: 20px;
+            display: inline-block;
         }
 
-        #runButton:hover {
+        #runButton:hover, #downloadButton:hover {
             background-color: #0066cc;
         }
 
@@ -44,6 +45,7 @@
             margin-top: 20px;
             font-size: 16px;
             color: #333;
+            text-align: left;
         }
     </style>
 </head>
@@ -51,6 +53,7 @@
     <div id="container">
         <h1>Run Miles</h1>
         <button id="runButton">Run Code</button>
+        <button id="downloadButton" style="display: none;">Download Report</button>
         <div id="result"></div>
     </div>
 
@@ -60,17 +63,36 @@
             resultDiv.innerText = "Running...";
 
             try {
-                // Call the server endpoint
                 const response = await fetch('/update-odometer');
                 const result = await response.json();
 
                 if (result.success && Array.isArray(result.data)) {
-                    resultDiv.innerText = '';  // Clear initial message
+                    resultDiv.innerText = '';
+                    const reportContent = [];
+
                     result.data.forEach((truck) => {
-                        const truckInfo = document.createElement('div');
-                        truckInfo.innerText = `Truck ${truck.name} - ${truck.vehicleIdentificationNumber} was updated with ${truck.odometer} miles.`;
-                        resultDiv.appendChild(truckInfo);
+                        const truckInfo = `Truck ${truck.name} was updated with ${truck.odometer} miles.`;
+                        const truckElement = document.createElement('div');
+                        truckElement.innerText = truckInfo;
+                        resultDiv.appendChild(truckElement);
+                        reportContent.push(truckInfo);
                     });
+
+                    // Show the download button after generating the report
+                    const downloadButton = document.getElementById('downloadButton');
+                    downloadButton.style.display = 'inline-block';
+                    
+                    downloadButton.onclick = function() {
+                        const blob = new Blob([reportContent.join('\n')], { type: 'text/plain' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'Truck_Report.txt';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    };
                 } else {
                     resultDiv.innerText = "Error: No data returned from server.";
                 }
